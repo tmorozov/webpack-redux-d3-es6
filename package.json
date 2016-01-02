@@ -1,0 +1,21 @@
+{
+  "name": "webpack-redux-d3-es6",
+  "version": "1.0.0",
+  "description": "Redux for state, D3 for view",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --port 8099"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.3.26",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.3.13",
+    "webpack": "^1.12.9"
+  },
+  "babel": {
+    "presets": ["es2015"]
+  }
+}
