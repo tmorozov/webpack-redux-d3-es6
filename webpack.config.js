@@ -1,7 +1,7 @@
 /*globals module */
 
 module.exports = {
-  entry: "./src/js/app.es6",
+  entry: "./src/js/app.js",
   output: {
     path: "./dist",
     filename: "bundle.js",
@@ -12,12 +12,20 @@ module.exports = {
     contentBase: "./dist"
   },
   module: {
+    postLoaders: [
+        {
+            test: /d3-geo-projection/,
+            loader: "transform?brfs"
+        }
+    ],
     loaders: [
-      {
-        test: /\.es6?$/,
-        exclude: /(node_modules)/,
-        loader: "babel"
-      }
+        {
+            test: /\.js?$/,
+            exclude: /(node_modules)/,
+            loaders: [
+                "babel"
+            ]
+        }
     ]
   },
   devtool: 'source-map'
