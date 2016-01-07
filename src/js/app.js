@@ -1,17 +1,13 @@
 import mainView from "./view/main";
 import configureStore from "./store/store";
-import {loadMapData} from "./actions/index";
+import {loadMapData, loadLocations, loadLinks} from "./actions/index";
 
 
 function render() {
     "use strict";
 
-    let geoData = store.getState().geoData;
-
-    if(geoData.isValid) {
-        //console.log(geoData)
-        mainView.render(geoData.world);
-    }
+    let curState = store.getState();
+    mainView.render(curState);
 }
 
 const store = configureStore();
@@ -19,3 +15,5 @@ store.subscribe(render);
 
 
 store.dispatch(loadMapData());
+store.dispatch(loadLocations());
+store.dispatch(loadLinks());

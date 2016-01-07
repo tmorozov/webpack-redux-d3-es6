@@ -1,0 +1,10 @@
+[{
+  "name": "New York",
+  "coordinates": [-73.757222, 42.6525]
+}, {
+  "name": "London",
+  "coordinates": [-0.1275, 51.507222]
+}, {
+  "name": "Tokyo",
+  "coordinates": [139.683333, 35.683333]
+}]
