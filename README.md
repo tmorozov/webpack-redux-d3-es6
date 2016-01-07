@@ -4,4 +4,4 @@ Redux for the State
 D3 for the View
 
 World map example.
-Asincronous loading of data.
+Asynchronous loading of data.
