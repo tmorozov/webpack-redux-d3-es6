@@ -1,6 +1,6 @@
 import mainView from "./view/main";
 import configureStore from "./store/store";
-import {loadMapData, loadLocations, loadLinks} from "./actions/index";
+import {loadMapData, loadLocations, loadLinks, loadCountryNames} from "./actions/index";
 
 
 function render() {
@@ -17,3 +17,4 @@ store.subscribe(render);
 store.dispatch(loadMapData());
 store.dispatch(loadLocations());
 store.dispatch(loadLinks());
+store.dispatch(loadCountryNames());

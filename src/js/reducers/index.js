@@ -1,6 +1,9 @@
 
 import { combineReducers } from 'redux';
-import {GEO_ERROR, GEO_DATA, LOCATIONS_DATA, LOCATIONS_ERROR, LINKS_DATA, LINKS_ERROR} from '../actions/index';
+import {GEO_ERROR, GEO_DATA,
+    LOCATIONS_DATA, LOCATIONS_ERROR,
+    LINKS_DATA, LINKS_ERROR,
+    COUNTRY_NAMES_DATA, COUNTRY_NAMES_ERROR} from '../actions/index';
 
 function geoData(state = {
     isValid: false,
@@ -55,10 +58,29 @@ function links(state = [], action = undefined) {
     }
 }
 
+
+function countryNames(state = {}, action = undefined) {
+
+    "use strict";
+
+    switch (action.type) {
+        case COUNTRY_NAMES_DATA:
+            return action.names.reduce((acc, cur) => {
+                acc[cur.id] = cur;
+                return acc;
+            }, {});
+        case COUNTRY_NAMES_ERROR:
+            return {};
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
     geoData,
     locations,
-    links
+    links,
+    countryNames
 });
 
 export default rootReducer;

@@ -6,6 +6,8 @@ export const LOCATIONS_DATA = 'LOCATIONS_DATA';
 export const LOCATIONS_ERROR = 'LOCATIONS_ERROR';
 export const LINKS_DATA = 'LINKS_DATA';
 export const LINKS_ERROR = 'LINKS_ERROR';
+export const COUNTRY_NAMES_ERROR = 'COUNTRY_NAMES_ERROR';
+export const COUNTRY_NAMES_DATA = 'COUNTRY_NAMES_DATA';
 
 
 function onGeoError(err) {
@@ -103,6 +105,42 @@ export function loadLinks() {
                 dispatch(onLinksError(error));
             } else {
                 dispatch(onLinksData(locations));
+            }
+        });
+    };
+}
+
+
+//---- Country Names
+
+function onCountryNamesError(err) {
+    "use strict";
+
+    return {
+        type: COUNTRY_NAMES_ERROR,
+        error: err
+    };
+}
+
+function onCountryNamesData(names) {
+    "use strict";
+
+    return {
+        type: COUNTRY_NAMES_DATA,
+        names: names
+    };
+}
+
+export function loadCountryNames() {
+    "use strict";
+
+    return dispatch => {
+
+        d3.tsv("/world-country-names.tsv", function(error, names) {
+            if (error) {
+                dispatch(onCountryNamesError(error));
+            } else {
+                dispatch(onCountryNamesData(names));
             }
         });
     };
