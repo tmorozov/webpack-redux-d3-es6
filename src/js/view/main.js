@@ -9,7 +9,7 @@ const height = 600;
 let projection = d3.geo.patterson()
     .scale(153)
     .translate([width / 2, height / 2])
-    .precision(.1);
+    .precision(0.1);
 
 let path = d3.geo.path()
     .projection(projection);
@@ -27,6 +27,8 @@ svg.append("path")
 
 
 function render(world) {
+    "use strict";
+
     svg.insert("path", ".graticule")
         .datum(topojson.feature(world, world.objects.land))
         .attr("class", "land")

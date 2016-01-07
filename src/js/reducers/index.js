@@ -1,11 +1,13 @@
 
 import { combineReducers } from 'redux';
-import {GEO_ERROR, GEO_DATA} from '../actions/';
+import {GEO_ERROR, GEO_DATA} from '../actions/index';
 
 function geoData(state = {
     isValid: false,
     world: {}
-}, action) {
+}, action = undefined) {
+    "use strict";
+
     switch (action.type) {
         case GEO_DATA:
             return Object.assign({}, state, {
@@ -13,7 +15,7 @@ function geoData(state = {
                 isValid: true
             });
         case GEO_ERROR:
-            console.log(action.error);
+            //console.log(action.error);
             return Object.assign({}, state, {
                 world: {},
                 isValid: false
