@@ -39,8 +39,6 @@ let layer1_likns = svg.append('g');
 let layer2_locations = svg.append('g');
 
 
-
-
 function render(state) {
     "use strict";
 
@@ -51,15 +49,10 @@ function render(state) {
     if(state.geoData.isValid) {
         let world = state.geoData.world;
 
-        //land.datum(topojson.feature(world, world.objects.land))
-        //    .attr("d", path);
-
-        //boundary.datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
-        //    .attr("d", path);
-
-
         let countries = topojson.feature(world, world.objects.countries).features;
-        let country = layer0_countries.selectAll(".country").data(countries);
+
+        let country = layer0_countries.selectAll(".country")
+            .data(countries);
 
         country
             .enter()
