@@ -1,6 +1,6 @@
 import mainView from "./view/main";
-import configureStore from "./store/store";
-import {loadMapData, loadLocations, loadLinks, loadCountryNames} from "./actions/index";
+import store from "./store/store";
+import {loadMapData, loadLocations, loadLinks, loadCountryNames, loadCityNames, zoom} from "./actions/index";
 
 
 function render() {
@@ -10,7 +10,7 @@ function render() {
     mainView.render(curState);
 }
 
-const store = configureStore();
+//const store = configureStore();
 store.subscribe(render);
 
 
@@ -18,3 +18,5 @@ store.dispatch(loadMapData());
 store.dispatch(loadLocations());
 store.dispatch(loadLinks());
 store.dispatch(loadCountryNames());
+store.dispatch(loadCityNames());
+//store.dispatch(zoom(150, [-73.757222, 42.6525]));

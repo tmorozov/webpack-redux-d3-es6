@@ -3,7 +3,9 @@ import { combineReducers } from 'redux';
 import {GEO_ERROR, GEO_DATA,
     LOCATIONS_DATA, LOCATIONS_ERROR,
     LINKS_DATA, LINKS_ERROR,
-    COUNTRY_NAMES_DATA, COUNTRY_NAMES_ERROR} from '../actions/index';
+    COUNTRY_NAMES_DATA, COUNTRY_NAMES_ERROR,
+    CITY_NAMES_DATA, CITY_NAMES_ERROR,
+    ZOOM} from '../actions/index';
 
 function geoData(state = {
     isValid: false,
@@ -76,11 +78,45 @@ function countryNames(state = {}, action = undefined) {
     }
 }
 
+function cityNames(state = [], action = undefined) {
+
+    "use strict";
+
+    switch (action.type) {
+        case CITY_NAMES_DATA:
+            return action.names;
+        case CITY_NAMES_ERROR:
+            return [];
+        default:
+            return state;
+    }
+}
+
+function zoomPan(state = {
+    scale: 150,
+    coordinates: [0, 0]
+}, action = undefined) {
+    "use strict";
+
+    switch (action.type) {
+        case ZOOM:
+            return Object.assign({}, state, {
+                scale: action.level,
+                coordinates: action.coordinates
+            });
+        default:
+            return state;
+    }
+
+}
+
 const rootReducer = combineReducers({
     geoData,
     locations,
     links,
-    countryNames
+    countryNames,
+    cityNames,
+    zoomPan
 });
 
 export default rootReducer;

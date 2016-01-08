@@ -7,7 +7,14 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore);
 
 
-export default function configureStore(initialState) {
-    "use strict";
-    return createStoreWithMiddleware(rootReducer, initialState);
-}
+//export default function configureStore(initialState) {
+//    "use strict";
+//    return createStoreWithMiddleware(rootReducer, initialState);
+//}
+
+
+const store = createStoreWithMiddleware(rootReducer);
+
+export default store;
+
+//export store;

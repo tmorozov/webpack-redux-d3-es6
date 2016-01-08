@@ -8,23 +8,17 @@ export const LINKS_DATA = 'LINKS_DATA';
 export const LINKS_ERROR = 'LINKS_ERROR';
 export const COUNTRY_NAMES_ERROR = 'COUNTRY_NAMES_ERROR';
 export const COUNTRY_NAMES_DATA = 'COUNTRY_NAMES_DATA';
+export const CITY_NAMES_ERROR = 'CITY_NAMES_ERROR';
+export const CITY_NAMES_DATA = 'CITY_NAMES_ERROR';
 
+export const ZOOM = 'ZOOM';
 
-function onGeoError(err) {
+export function zoom(level = 150, coordinates = [0, 0]) {
     "use strict";
-
     return {
-        type: GEO_ERROR,
-        error: err
-    };
-}
-
-function onGeoData(world) {
-    "use strict";
-
-    return {
-        type: GEO_DATA,
-        world: world
+        type: ZOOM,
+        level: level,
+        coordinates: coordinates
     };
 }
 
@@ -35,32 +29,20 @@ export function loadMapData() {
 
         d3.json("/world-50m.json", function(error, world) {
             if (error) {
-                dispatch(onGeoError(error));
+                dispatch({
+                    type: GEO_ERROR,
+                    error: error
+                });
             } else {
-                dispatch(onGeoData(world));
+                dispatch({
+                    type: GEO_DATA,
+                    world: world
+                });
             }
         });
     };
 }
 
-
-function onLocationsError(err) {
-    "use strict";
-
-    return {
-        type: LOCATIONS_ERROR,
-        error: err
-    };
-}
-
-function onLocationsData(locations) {
-    "use strict";
-
-    return {
-        type: LOCATIONS_DATA,
-        locations: locations
-    };
-}
 
 export function loadLocations() {
     "use strict";
@@ -69,31 +51,21 @@ export function loadLocations() {
 
         d3.json("/locations.json", function(error, locations) {
             if (error) {
-                dispatch(onLocationsError(error));
+                dispatch({
+                    type: LOCATIONS_ERROR,
+                    error: error
+                });
             } else {
-                dispatch(onLocationsData(locations));
+                dispatch({
+                    type: LOCATIONS_DATA,
+                    locations: locations
+                });
             }
         });
     };
 }
 
-function onLinksError(err) {
-    "use strict";
 
-    return {
-        type: LINKS_ERROR,
-        error: err
-    };
-}
-
-function onLinksData(links) {
-    "use strict";
-
-    return {
-        type: LINKS_DATA,
-        links: links
-    };
-}
 
 export function loadLinks() {
     "use strict";
@@ -102,9 +74,15 @@ export function loadLinks() {
 
         d3.json("/links.json", function(error, locations) {
             if (error) {
-                dispatch(onLinksError(error));
+                dispatch({
+                    type: LINKS_ERROR,
+                    error: error
+                });
             } else {
-                dispatch(onLinksData(locations));
+                dispatch({
+                    type: LINKS_DATA,
+                    links: locations
+                });
             }
         });
     };
@@ -113,24 +91,6 @@ export function loadLinks() {
 
 //---- Country Names
 
-function onCountryNamesError(err) {
-    "use strict";
-
-    return {
-        type: COUNTRY_NAMES_ERROR,
-        error: err
-    };
-}
-
-function onCountryNamesData(names) {
-    "use strict";
-
-    return {
-        type: COUNTRY_NAMES_DATA,
-        names: names
-    };
-}
-
 export function loadCountryNames() {
     "use strict";
 
@@ -138,9 +98,45 @@ export function loadCountryNames() {
 
         d3.tsv("/world-country-names.tsv", function(error, names) {
             if (error) {
-                dispatch(onCountryNamesError(error));
+                dispatch({
+                    type: COUNTRY_NAMES_ERROR,
+                    error: error
+                });
             } else {
-                dispatch(onCountryNamesData(names));
+                dispatch({
+                    type: COUNTRY_NAMES_DATA,
+                    names: names
+                });
+            }
+        });
+    };
+}
+
+// --- City names
+
+export function loadCityNames() {
+    "use strict";
+
+    return dispatch => {
+
+        d3.tsv("/cities15000.txt", function(error, names) {
+            if (error) {
+                dispatch({
+                    type: CITY_NAMES_ERROR,
+                    error: error
+                });
+            } else {
+                dispatch({
+                    type: CITY_NAMES_DATA,
+                    names: names.map( (city)=>{
+                        return {
+                            id: city.geonameid,
+                            name: city.asciiname,
+                            coordinates: [+city.longitude, +city.latitude],
+                            population: +city.population
+                        };
+                    })
+                });
             }
         });
     };
