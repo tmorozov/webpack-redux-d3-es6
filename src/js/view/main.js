@@ -26,6 +26,12 @@ let svg = d3.select("#main").append("svg")
     .attr("height", height)
     .append("g");
 
+// for zoom/pat to work on empty spaces
+svg.append("rect")
+    .attr("class", "overlay")
+    .attr("width", width)
+    .attr("height", height);
+
 let g = svg.append("g");
 let layer_countries = g.append("g");
 let layer_cities = g.append("g");
@@ -51,6 +57,20 @@ function nameTooltip(el) {
         .on("mouseout",  () => tooltip.classed("hidden", true) );
 }
 
+function projectLocation(el) {
+    "use strict";
+    el.attr("cx", d => projection(d.coordinates)[0])
+        .attr("cy", d => projection(d.coordinates)[1]);
+}
+
+function prjectLink(el) {
+    "use strict";
+    el.attr("x1", d => projection(d.from)[0])
+        .attr("y1", d => projection(d.from)[1])
+        .attr("x2", d => projection(d.to)[0])
+        .attr("y2", d => projection(d.to)[1]);
+}
+
 function smartRenderCities() {
     "use strict";
     let topLeft = projection.invert([0,0]);
@@ -74,9 +94,7 @@ function smartRenderCities() {
         .attr("stroke", "yellow")
         .attr("fill", "yellow")
         .attr("r", 4);
-    cities
-        .attr("cx", d => projection(d.coordinates)[0])
-        .attr("cy", d => projection(d.coordinates)[1])
+    cities.call(projectLocation)
         .call(nameTooltip);
 
     cities.exit().remove();
@@ -101,18 +119,6 @@ function render(state) {
 
         country.attr("d", path);
 
-        //// Show/hide tooltip
-        //country
-        //    .on("mousemove", d => {
-        //        var mouse = d3.mouse(svg.node());
-        //
-        //        tooltip
-        //            .classed("hidden", false)
-        //            .attr("style", "left:"+(mouse[0]+25)+"px;top:"+mouse[1]+"px")
-        //            .html(state.countryNames[d.id]? state.countryNames[d.id].name : "");
-        //    })
-        //    .on("mouseout", () => tooltip.classed("hidden", true) );
-
     }
 
 
@@ -122,10 +128,7 @@ function render(state) {
         .attr("class", "link")
         .attr("stroke-width", 1)
         .attr("stroke", "blue");
-    links.attr("x1", d => projection(d.from)[0])
-        .attr("y1", d => projection(d.from)[1])
-        .attr("x2", d => projection(d.to)[0])
-        .attr("y2", d => projection(d.to)[1]);
+    links.call(prjectLink);
     links.exit().remove();
 
 
@@ -136,9 +139,7 @@ function render(state) {
         .attr("stroke", "blue")
         .attr("fill", "#fff")
         .attr("r", 4);
-    locations
-        .attr("cx", d => projection(d.coordinates)[0])
-        .attr("cy", d => projection(d.coordinates)[1])
+    locations.call(projectLocation)
         .call(nameTooltip);
 
     locations.exit().remove();
@@ -158,14 +159,10 @@ function zoomed() {
         .attr("d", path);
 
     layer_links.selectAll(".link")
-        .attr("x1", d => projection(d.from)[0])
-        .attr("y1", d => projection(d.from)[1])
-        .attr("x2", d => projection(d.to)[0])
-        .attr("y2", d => projection(d.to)[1]);
+        .call(prjectLink);
 
     layer_locations.selectAll(".location")
-        .attr("cx", d => projection(d.coordinates)[0])
-        .attr("cy", d => projection(d.coordinates)[1]);
+        .call(projectLocation);
 
     smartRenderCities();
 }
