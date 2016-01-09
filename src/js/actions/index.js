@@ -27,7 +27,7 @@ export function loadMapData() {
 
     return dispatch => {
 
-        d3.json("/world-50m.json", function(error, world) {
+        d3.json("/world-110m.json", function(error, world) {
             if (error) {
                 dispatch({
                     type: GEO_ERROR,
